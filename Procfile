@@ -1,0 +1,1 @@
+web: java -Dserver.port=$PORT -Dspring.profiles.active=prod -war target/saude.sempre.api-0.0.1-SNAPSHOT.war
