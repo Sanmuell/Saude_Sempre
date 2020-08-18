@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -26,7 +29,8 @@ public class Usuario implements Serializable {
 	private String email;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "usuarioDeMedicamento")
+	@OneToMany(mappedBy = "usuario", orphanRemoval = true) // orphan (se deletar uma pessoa deletará medicamento)
+	@Cascade(value = {org.hibernate.annotations.CascadeType.ALL})
 	//@JoinTable(name = "tb_usuario_medicamento", joinColumns =  ) //dito qual é o nome da tabela e as respectivas chaves estrangeiras que associa com essa
 	private List<Medicamento> listaDeMedicamentos = new ArrayList<>();
 	

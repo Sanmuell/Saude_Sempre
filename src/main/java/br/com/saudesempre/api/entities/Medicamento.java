@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "tb_medicamento")
 public class Medicamento implements Serializable {
@@ -22,22 +23,23 @@ public class Medicamento implements Serializable {
 	private Integer dosagem;
 	private String descricao;
 
+	
 	@ManyToOne
-	@JoinColumn(name = "usuarioDeMedicamento_id")
-	private Usuario usuarioDeMedicamento;
+	@JoinColumn(name = "usuario")
+	private Usuario usuario = new Usuario();
 	
 
 	public Medicamento() {
 
 	}
 
-	public Medicamento(Long id, String nome, int dosagem, String descricao,  Usuario usuarioDeMedicamento) {
+	public Medicamento(Long id, String nome, int dosagem, String descricao,  Usuario usuario) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.dosagem = dosagem;
 		this.descricao = descricao;
-		this.usuarioDeMedicamento = usuarioDeMedicamento;
+		this.usuario = usuario;
 	}
 
 	public Long getId() {
@@ -73,11 +75,11 @@ public class Medicamento implements Serializable {
 	}
 
 	public Usuario getUsuarioDeMedicamento() {
-		return usuarioDeMedicamento;
+		return usuario;
 	}
 
-	public void setUsuarioDeMedicamento(Usuario usuarioDeMedicamento) {
-		this.usuarioDeMedicamento = usuarioDeMedicamento;
+	public void setUsuarioDeMedicamento(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Override
@@ -103,6 +105,14 @@ public class Medicamento implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }
