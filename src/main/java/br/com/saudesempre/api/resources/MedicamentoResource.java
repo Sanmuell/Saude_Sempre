@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/medicamentos")
-@Api(value = "API REST Usuarios")
+@Api(value = "API REST Medicamentos")
 @CrossOrigin(origins = "*") // Qualquer domínio pode acessar a API
 public class MedicamentoResource {
 
