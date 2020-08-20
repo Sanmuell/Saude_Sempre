@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,16 +26,21 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.saudesempre.api.entities.Medicamento;
 
 import br.com.saudesempre.api.repositories.MedicamentoRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 
 @RestController
 @RequestMapping(value = "/medicamentos")
+@Api(value = "API REST Usuarios")
+@CrossOrigin(origins = "*") // Qualquer domínio pode acessar a API
 public class MedicamentoResource {
 
 	@Autowired
 	private MedicamentoRepository medicamentoRepository;
 
 	@GetMapping
+	@ApiOperation(value = "Retorna TODOS os Medicamentos")
 	public List<Medicamento> listarTodosMedicamentos() {
 		return medicamentoRepository.findAll();
 	}
@@ -43,7 +49,7 @@ public class MedicamentoResource {
 
 // -------------- método de buscar por id------------------------
 	@GetMapping("/{medicamentoId}")
-
+	@ApiOperation(value = "Busca medicamento por ID")
 	public ResponseEntity<Medicamento> buscarMedicamentosPorId(@Valid @PathVariable Long medicamentoId) {
 		Optional<Medicamento> medicamento = medicamentoRepository.findById(medicamentoId);
 
@@ -59,6 +65,7 @@ public class MedicamentoResource {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@ApiOperation(value = "Salva um medicamento")
 	public Medicamento adicionarMedicamento(@Valid @RequestBody Medicamento medicamento) {
 		return medicamentoRepository.save(medicamento);
 	}
@@ -66,6 +73,7 @@ public class MedicamentoResource {
 	
 	
 	@PutMapping("/{medicamentoId}")
+	@ApiOperation(value = "Atualiza um medicamento")
 	public ResponseEntity<Medicamento> atualizarMedicamento (@Valid @PathVariable Long medicamentoId, @RequestBody Medicamento medicamento) {
 		if (!medicamentoRepository.existsById(medicamentoId)) {
 			return ResponseEntity.notFound().build();
@@ -80,7 +88,7 @@ public class MedicamentoResource {
 	}
 
 	@DeleteMapping("/{medicamentoId}")
-
+	@ApiOperation(value = "Deleta um medicamento")
 // como não vai retornar nenhum corpo, retornará void.
 	public ResponseEntity<Void> removerMedicamento ( @PathVariable Long medicamentoId) {
 		if (!medicamentoRepository.existsById(medicamentoId)) { // se não existe, retorne 404

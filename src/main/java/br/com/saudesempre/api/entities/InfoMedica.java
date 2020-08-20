@@ -21,15 +21,17 @@ public class InfoMedica implements Serializable {
 	private String titulo;
 	private String descricao;
 
+	
 	@ManyToOne
 	@JoinColumn(name = "infoMedica_id")
 	private Usuario infoMedica;
 
+  
 	public InfoMedica() {
 
 	}
 
-	public InfoMedica(Long id, String titulo, String descricao, Usuario infoMedica) {
+	public InfoMedica(Long id, String titulo, String descricao,  Usuario infoMedica) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
@@ -71,6 +73,7 @@ public class InfoMedica implements Serializable {
 	public void setInfoMedica(Usuario infoMedica) {
 		this.infoMedica = infoMedica;
 	}
+
 
 	@Override
 	public int hashCode() {

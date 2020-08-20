@@ -62,14 +62,14 @@ public class UsuarioResource {
 	}
 
 	@ApiOperation(value = "Deleta um usuario")
-	@DeleteMapping("/usuario")
+	@DeleteMapping("/{id}")
 // como não vai retornar nenhum corpo, retornará void.
-	public ResponseEntity<Void> remover(@PathVariable Long usuarioId) {
-		if (!usuarioRepository.existsById(usuarioId)) { // se não existe, retorne 404
+	public ResponseEntity<Void> remover(@PathVariable Long id) {
+		if (!usuarioRepository.existsById(id)) { // se não existe, retorne 404
 			return ResponseEntity.notFound().build();
 		}
 
-		usuarioRepository.deleteById(usuarioId);
+		usuarioRepository.deleteById(id);
 
 		return ResponseEntity.noContent().build();
 	}
