@@ -36,14 +36,16 @@ public class UsuarioResource {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
-	@ApiOperation(value = "Retorna TODOS os usuarios")
-	@GetMapping("/usuarios")
+	//@ApiOperation(value = "Retorna TODOS os usuarios")
+	@GetMapping(value = "/usuarios")
+	@ApiOperation(value = "Lista todos os Usuarios")
 	public List<Usuario> listarTodosUsuarios() {
 		return usuarioRepository.findAll();
 	}
 
-	@ApiOperation(value = "Busca usuario por ID")
-	@GetMapping("/usuario/{id}")
+	//@ApiOperation(value = "Busca usuario por ID")
+	@GetMapping("/usuarios/{id}")
+	@ApiOperation(value = "Busca Usuario por ID")
 	public ResponseEntity<Usuario> buscar(@Valid @PathVariable Long id) {
 		Optional<Usuario> usuario = usuarioRepository.findById(id);
 
@@ -55,14 +57,14 @@ public class UsuarioResource {
 	}
 
 	@ApiOperation(value = "Salva um usuario")
-	@PostMapping("/usuario")
+	@PostMapping("/usuarios")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario adicionarUsuario(@Valid @RequestBody Usuario usuario) {
 		return usuarioRepository.save(usuario);
 	}
 
 	@ApiOperation(value = "Deleta um usuario")
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/usuarios/{id}")
 // como não vai retornar nenhum corpo, retornará void.
 	public ResponseEntity<Void> remover(@PathVariable Long id) {
 		if (!usuarioRepository.existsById(id)) { // se não existe, retorne 404

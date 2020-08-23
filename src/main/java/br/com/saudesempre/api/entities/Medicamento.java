@@ -6,8 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+//import javax.persistence.JoinColumn;
+//import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -20,26 +20,28 @@ public class Medicamento implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	private Integer dosagem;
+	private Integer frequencia;
 	private String descricao;
 
-	
-	@ManyToOne
-	@JoinColumn(name = "usuario")
-	private Usuario usuario = new Usuario();
-	
 
+	// Um medicamento tem UM (usuario)
+		//@ManyToOne
+		//@JoinColumn(name = "usuario")// nome da chave ESTRANGEIRA que terá no banco de dados
+	//private Usuario usuario = new Usuario();
+	
+	// construtor sem argumentos
 	public Medicamento() {
 
 	}
 
-	public Medicamento(Long id, String nome, int dosagem, String descricao,  Usuario usuario) {
+	// construtores com argumentos
+	public Medicamento(Long id, String nome, int frequencia, String descricao  /*Usuario usuario */) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.dosagem = dosagem;
+		this.frequencia = frequencia;
 		this.descricao = descricao;
-		this.usuario = usuario;
+		//this.usuario = usuario;
 	}
 
 	public Long getId() {
@@ -58,12 +60,12 @@ public class Medicamento implements Serializable {
 		this.nome = nome;
 	}
 
-	public Integer getDosagem() {
-		return dosagem;
+	public Integer getFrequencia() {
+		return frequencia;
 	}
 
-	public void setDosagem(Integer dosagem) {
-		this.dosagem = dosagem;
+	public void setFrequencia(Integer frequencia) {
+		this.frequencia = frequencia;
 	}
 
 	public String getDescricao() {
@@ -74,13 +76,7 @@ public class Medicamento implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public Usuario getUsuarioDeMedicamento() {
-		return usuario;
-	}
-
-	public void setUsuarioDeMedicamento(Usuario usuario) {
-		this.usuario = usuario;
-	}
+	
 
 	@Override
 	public int hashCode() {
@@ -107,6 +103,7 @@ public class Medicamento implements Serializable {
 		return true;
 	}
 
+	/*
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -115,4 +112,5 @@ public class Medicamento implements Serializable {
 		this.usuario = usuario;
 	}
 
+*/
 }

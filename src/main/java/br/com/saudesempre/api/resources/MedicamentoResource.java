@@ -31,16 +31,17 @@ import io.swagger.annotations.ApiOperation;
 
 
 @RestController
-@RequestMapping(value = "/medicamentos")
+@RequestMapping(value = "/saude-sempre")
 @Api(value = "API REST Medicamentos")
-@CrossOrigin(origins = "*/medicamentos") // Qualquer domínio pode acessar a API
+@CrossOrigin(origins = "*") // Qualquer domínio pode acessar a API
 public class MedicamentoResource {
 
 	@Autowired
 	private MedicamentoRepository medicamentoRepository;
 
-	@GetMapping
-	@ApiOperation(value = "Retorna TODOS os Medicamentos")
+	@GetMapping(value = "/medicamentos")
+	@ApiOperation(value = "Lista todos os Medicamentos")
+	//@ApiOperation(value = "Retorna TODOS os Medicamentos")
 	public List<Medicamento> listarTodosMedicamentos() {
 		return medicamentoRepository.findAll();
 	}
@@ -48,10 +49,10 @@ public class MedicamentoResource {
 	
 
 // -------------- método de buscar por id------------------------
-	@GetMapping("/{medicamentoId}")
+	@GetMapping("/medicamentos/{id}")
 	@ApiOperation(value = "Busca medicamento por ID")
-	public ResponseEntity<Medicamento> buscarMedicamentosPorId(@Valid @PathVariable Long medicamentoId) {
-		Optional<Medicamento> medicamento = medicamentoRepository.findById(medicamentoId);
+	public ResponseEntity<Medicamento> buscarMedicamentosPorId(@Valid @PathVariable Long id) {
+		Optional<Medicamento> medicamento = medicamentoRepository.findById(id);
 
 		if (medicamento.isPresent()) {// se tem algo dentro do usuario
 			return ResponseEntity.ok(medicamento.get()); // retorna a resposta 200 e o corpo retorna o usuario.get
@@ -63,7 +64,7 @@ public class MedicamentoResource {
 
 // --------------CADASTRO DE CLIENTE- POST -------------------------
 
-	@PostMapping
+	@PostMapping(value = "/medicamentos/")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Salva um medicamento")
 	public Medicamento adicionarMedicamento(@Valid @RequestBody Medicamento medicamento) {
@@ -72,30 +73,30 @@ public class MedicamentoResource {
 
 	
 	
-	@PutMapping("/{medicamentoId}")
-	@ApiOperation(value = "Atualiza um medicamento")
-	public ResponseEntity<Medicamento> atualizarMedicamento (@Valid @PathVariable Long medicamentoId, @RequestBody Medicamento medicamento) {
-		if (!medicamentoRepository.existsById(medicamentoId)) {
+	@PutMapping("/medicamentos/{id}")
+	@ApiOperation(value = "Atualiza um medicamento por ID")
+	public ResponseEntity<Medicamento> atualizarMedicamento (@Valid @PathVariable Long id, @RequestBody Medicamento medicamento) {
+		if (!medicamentoRepository.existsById(id)) {
 			return ResponseEntity.notFound().build();
 
 		}
 
-		medicamento.setId(medicamentoId);
+		medicamento.setId(id);
 		medicamento = medicamentoRepository.save(medicamento);
 
 		return ResponseEntity.ok(medicamento);
 
 	}
 
-	@DeleteMapping("/{medicamentoId}")
-	@ApiOperation(value = "Deleta um medicamento")
+	@DeleteMapping("/medicamentos/{id}")
+	@ApiOperation(value = "Deleta um medicamento por ID")
 // como não vai retornar nenhum corpo, retornará void.
-	public ResponseEntity<Void> removerMedicamento ( @PathVariable Long medicamentoId) {
-		if (!medicamentoRepository.existsById(medicamentoId)) { // se não existe, retorne 404
+	public ResponseEntity<Void> removerMedicamento ( @PathVariable Long id) {
+		if (!medicamentoRepository.existsById(id)) { // se não existe, retorne 404
 			return ResponseEntity.notFound().build();
 		}
 
-		medicamentoRepository.deleteById(medicamentoId);
+		medicamentoRepository.deleteById(id);
 
 		return ResponseEntity.noContent().build();
 	}

@@ -6,13 +6,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+//import javax.persistence.JoinColumn;
+//import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Entity
 @Table(name = "tb_infoMedica")
-public class InfoMedica implements Serializable {
+public class InfomacoesMedicas implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -20,23 +23,28 @@ public class InfoMedica implements Serializable {
 	private Long id;
 	private String titulo;
 	private String descricao;
+	@JsonFormat(pattern = "dd-MM-yyyy", shape = Shape.STRING)
+	private String data;
 
 	
+	/*
 	@ManyToOne
-	@JoinColumn(name = "infoMedica_id")
-	private Usuario infoMedica;
-
+	@JoinColumn(name = "usuario")// nome da chave ESTRANGEIRA que terá no banco de dados
+	Usuario usuario = new Usuario();
+	*/
+	
   
-	public InfoMedica() {
+	public InfomacoesMedicas() {
 
 	}
 
-	public InfoMedica(Long id, String titulo, String descricao,  Usuario infoMedica) {
+	public InfomacoesMedicas(Long id, String titulo, String descricao /* Usuario usuario */, String data) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
 		this.descricao = descricao;
-		this.infoMedica = infoMedica;
+		//this.usuario = usuario;
+		this.data = data;
 
 	}
 
@@ -66,14 +74,6 @@ public class InfoMedica implements Serializable {
 	
 	
 
-	public Usuario getInfoMedica() {
-		return infoMedica;
-	}
-
-	public void setInfoMedica(Usuario infoMedica) {
-		this.infoMedica = infoMedica;
-	}
-
 
 	@Override
 	public int hashCode() {
@@ -91,13 +91,31 @@ public class InfoMedica implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		InfoMedica other = (InfoMedica) obj;
+		InfomacoesMedicas other = (InfomacoesMedicas) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	/*
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	*/
+
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
 	}
 
 }
