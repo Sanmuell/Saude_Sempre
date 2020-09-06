@@ -2,6 +2,8 @@
  * Fornece dois recursos para recuperar todos os usuário cadastrados ou por Id 
  */
 
+
+
 package br.com.saudesempre.api.resources;
 
 import java.util.List;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.saudesempre.api.entities.Usuario;
 import br.com.saudesempre.api.repositories.UsuarioRepository;
+import br.com.saudesempre.api.service.EmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -35,6 +38,9 @@ public class UsuarioResource {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private EmailService emailService;
 
 	//@ApiOperation(value = "Retorna TODOS os usuarios")
 	@GetMapping(value = "/usuarios")
@@ -60,7 +66,10 @@ public class UsuarioResource {
 	@PostMapping("/usuarios")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario adicionarUsuario(@Valid @RequestBody Usuario usuario) {
-		return usuarioRepository.save(usuario);
+	
+		
+		emailService.enviarDadosDoUsuario(usuario);
+		return usuario;
 	}
 
 	@ApiOperation(value = "Deleta um usuario")

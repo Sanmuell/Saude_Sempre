@@ -118,4 +118,17 @@ public class InfomacoesMedicas implements Serializable {
 		this.data = data;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(getTitulo());
+		builder.append(getDescricao());
+		builder.append(getData());
+		
+		return builder.toString();
+	}
+	
+	
+	
+
 }

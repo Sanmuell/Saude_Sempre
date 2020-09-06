@@ -21,6 +21,7 @@ public class Contato implements Serializable {
 	private Long id;
 	private String nome;
 	private String numero;
+	private String email;
 	
 	// O contato pertence a um usuario
 	//@ManyToOne
@@ -55,12 +56,24 @@ public class Contato implements Serializable {
 		this.numero = numero;
 	}
 
-	public Contato(Long id, String nome, String numero /*, Usuario usuario */) {
+	
+	
+
+	public Contato(Long id, String nome, String numero, String email) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.numero = numero;
-		//this.usuario = usuario;
+		this.email = email;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(getNome());
+		builder.append(getEmail());
+	
+		return builder.toString();
 	}
 
 	@Override
@@ -86,6 +99,14 @@ public class Contato implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/*

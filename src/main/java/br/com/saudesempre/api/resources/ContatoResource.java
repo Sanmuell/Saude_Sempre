@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.saudesempre.api.entities.Contato;
 import br.com.saudesempre.api.repositories.ContatoRepository;
+import br.com.saudesempre.api.service.EmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -30,6 +31,9 @@ public class ContatoResource {
  
 	@Autowired
 	private ContatoRepository contatoRepository;
+	
+	@Autowired 
+	private EmailService EmailService;
 	
 	@GetMapping(value = "/contatos")
 	@ApiOperation(value = "Lista todos os contatos")

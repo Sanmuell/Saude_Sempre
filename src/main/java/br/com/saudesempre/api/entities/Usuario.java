@@ -23,6 +23,8 @@ public class Usuario implements Serializable {
 	private String nome;
 	private String email;
 	private String urlFoto;
+	private Medicamento medicamento;
+	private Contato contato;
 
 	// LISTA DE MEDICAMENTOS
 	// Colocar somente o GET na coleção, pq ele nunca vai ter troca da valores da
@@ -117,6 +119,34 @@ public class Usuario implements Serializable {
 	public void setUrlFoto(String urlFoto) {
 		this.urlFoto = urlFoto;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(getNome());
+		return builder.toString();
+		
+	}
+
+	public Medicamento getMedicamento() {
+		return medicamento;
+	}
+
+	public void setMedicamento(Medicamento medicamento) {
+		this.medicamento = medicamento;
+	}
+
+	public Contato getContato() {
+		return contato;
+	}
+
+	public void setContato(Contato contato) {
+		this.contato = contato;
+	}
+	
+	// IMprimir USUARIO 
+	
+	
 
 	/*
 	public List<Medicamento> getListaDeMedicamentos() {

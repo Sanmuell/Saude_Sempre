@@ -103,6 +103,17 @@ public class Medicamento implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(getNome());
+		builder.append(getDescricao());
+		builder.append(getFrequencia());
+	
+		return builder.toString();
+	}
+	
+
 	/*
 	public Usuario getUsuario() {
 		return usuario;
