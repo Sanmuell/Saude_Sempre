@@ -7,7 +7,6 @@
 package br.com.saudesempre.api.resources;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -25,8 +24,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.saudesempre.api.entities.Usuario;
-import br.com.saudesempre.api.repositories.UsuarioRepository;
 import br.com.saudesempre.api.service.EmailService;
+import br.com.saudesempre.api.service.UsuarioService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -36,52 +35,54 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin(origins = "*") // Qualquer domínio pode acessar a API
 public class UsuarioResource {
 
-	@Autowired
-	private UsuarioRepository usuarioRepository;
+	//@Autowired
+	//private UsuarioRepository usuarioRepository;
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired 
+	private UsuarioService usuarioService;
+	
 
 	//@ApiOperation(value = "Retorna TODOS os usuarios")
 	@GetMapping(value = "/usuarios")
 	@ApiOperation(value = "Lista todos os Usuarios")
-	public List<Usuario> listarTodosUsuarios() {
-		return usuarioRepository.findAll();
+	public ResponseEntity<List<Usuario>> listarTodosUsuarios() {
+		List<Usuario> lista = usuarioService.buscarTodos();
+		return ResponseEntity.ok().body(lista);
 	}
+	
+	
 
 	//@ApiOperation(value = "Busca usuario por ID")
 	@GetMapping("/usuarios/{id}")
 	@ApiOperation(value = "Busca Usuario por ID")
-	public ResponseEntity<Usuario> buscar(@Valid @PathVariable Long id) {
-		Optional<Usuario> usuario = usuarioRepository.findById(id);
-
-		if (usuario.isPresent()) {// se tem algo dentro do usuario
-			return ResponseEntity.ok(usuario.get()); // retorna a resposta 200 e o corpo retorna o usuario.get
-		}
-
-		return ResponseEntity.notFound().build(); // se der errado, retorna 404
+	public ResponseEntity<Usuario> buscarPorId(@Valid @PathVariable Long id) {
+		Usuario usuario = usuarioService.buscarPorId(id);
+		return ResponseEntity.ok().body(usuario);
+		
 	}
-
+		
+	
 	@ApiOperation(value = "Salva um usuario")
 	@PostMapping("/usuarios")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Usuario adicionarUsuario(@Valid @RequestBody Usuario usuario) {
-	
-		
-		emailService.enviarDadosDoUsuario(usuario);
-		return usuario;
+	public ResponseEntity<Usuario> inserirUsuario(@Valid @RequestBody Usuario usuario) {	
+		//emailService.enviarDadosDoUsuario(usuario);
+		//URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/usuarios/{id}");
+		usuario = usuarioService.inserirUsuario(usuario);
+		return ResponseEntity.ok().body(usuario);
 	}
 
+	
 	@ApiOperation(value = "Deleta um usuario")
 	@DeleteMapping("/usuarios/{id}")
 // como não vai retornar nenhum corpo, retornará void.
-	public ResponseEntity<Void> remover(@PathVariable Long id) {
-		if (!usuarioRepository.existsById(id)) { // se não existe, retorne 404
-			return ResponseEntity.notFound().build();
-		}
-
-		usuarioRepository.deleteById(id);
-
-		return ResponseEntity.noContent().build();
-	}
+	public ResponseEntity<Void> removerUsuario(@PathVariable Long id) {
+	
+		usuarioService.removerUsuario(id);
+		return ResponseEntity.noContent().build(); 
+	
+}
 }
