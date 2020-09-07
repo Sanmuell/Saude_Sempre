@@ -32,7 +32,25 @@ public class MedicamentoService {
 		return medicamentoRepository.save(medicamento);
 	}
 
-	public void removerUsuario(Long id) {
+	public Medicamento atualizarMedicamento(Long id, Medicamento obj) {
+		try {
+		Medicamento entity = medicamentoRepository.getOne(id);
+		atualizarDados(entity, obj);
+		return medicamentoRepository.save(entity);
+		 }catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("ID " + id + " não existe : ");
+			}}
+		
+		
+
+	private void atualizarDados(Medicamento entity, Medicamento obj) {
+		entity.setNome(obj.getNome());
+		entity.setDescricao(obj.getDescricao());
+		entity.setFrequencia(obj.getFrequencia());
+
+	}
+
+	public void removerMedicamento(Long id) {
 		try {
 			medicamentoRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
